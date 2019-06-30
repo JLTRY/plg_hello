@@ -65,7 +65,7 @@ class plgContentHello extends JPlugin
         if (!$this->params->get('enabled', 1)) {
             return true;
         }
- 		if ( JString::strpos( $row->text, '{hello' ) === false ) {
+ 		if ( strpos( $row->text, '{hello' ) === false ) {
             return true;
 		}		
 		preg_match_all(PF_REGEX_HELLO_PATTERN, $row->text, $matches);
@@ -74,20 +74,19 @@ class plgContentHello extends JPlugin
         // plugin only processes if there are any instances of the plugin in the text
         if ($count) {
 			
-            $document =& JFactory::getDocument();
+			$document = JFactory::getDocument();
 			for ($i = 0; $i < $count; $i++)
-            {
+			{
 				$result = array();
-                if (@$matches[1][$i]) {
-                    $inline_params = $matches[1][$i];
-                   
-                    $pairs = explode(' ', trim($inline_params));
-                    foreach ($pairs as $pair) {
-                        $pos = strpos($pair, "=");
-                        $key = substr($pair, 0, $pos);
-                        $value = substr($pair, $pos + 1);
-                        $result[$key] = $value;
-                    }
+				if (@$matches[1][$i]) {
+					$inline_params = $matches[1][$i];                  
+					$pairs = explode(' ', trim($inline_params));
+					foreach ($pairs as $pair) {
+						$pos = strpos($pair, "=");
+						$key = substr($pair, 0, $pos);
+						$value = substr($pair, $pos + 1);
+						$result[$key] = $value;
+					}
 					$p_content = $this->hello($result);
 					$row->text = str_replace("{hello" . $matches[1][$i] . "}", $p_content, $row->text);
 				}	
@@ -96,8 +95,7 @@ class plgContentHello extends JPlugin
 					$p_content = $this->hello($result);	
 					$row->text	= preg_replace('#{hello.*}#', $p_content, $row->text);				
 				}
-			}
-			
+			}			
 		}	
 		else
 		{	
@@ -133,8 +131,6 @@ class plgContentHello extends JPlugin
 					break;		
 			}
 		}	
-		//$plugin =& JPluginHelper::getPlugin('content', '');
-		return $content;
-			
+		return $content;			
 	}
 }
