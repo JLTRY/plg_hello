@@ -42,7 +42,7 @@ class plgContentHello extends JPlugin
 	*/
 	function onPrepareContent( &$article, &$params, $limitstart )
 	{
-		return $this->OnPrepareRow($article);			
+		return $this->OnPrepareRow($article);
 	}
 
  	/**
@@ -59,27 +59,28 @@ class plgContentHello extends JPlugin
 
 		
 	
-    function onPrepareRow(&$row) 
+	function onPrepareRow(&$row) 
 	{
 		//Escape fast
-        if (!$this->params->get('enabled', 1)) {
-            return true;
-        }
+		if (!$this->params->get('enabled', 1)) {
+			return true;
+		}
  		if ( strpos( $row->text, '{hello' ) === false ) {
-            return true;
+			return true;
 		}		
 		preg_match_all(PF_REGEX_HELLO_PATTERN, $row->text, $matches);
 		// Number of plugins
-        $count = count($matches[0]);		
-        // plugin only processes if there are any instances of the plugin in the text
-        if ($count) {
+		$count = count($matches[0]);	
+		// plugin only processes if there are any instances of the plugin in the text
+		if ($count) {
 			
-			$document = JFactory::getDocument();
+			$document =& JFactory::getDocument();
 			for ($i = 0; $i < $count; $i++)
 			{
 				$result = array();
 				if (@$matches[1][$i]) {
-					$inline_params = $matches[1][$i];                  
+					$inline_params = $matches[1][$i];
+				   
 					$pairs = explode(' ', trim($inline_params));
 					foreach ($pairs as $pair) {
 						$pos = strpos($pair, "=");
@@ -93,30 +94,30 @@ class plgContentHello extends JPlugin
 				else
 				{
 					$p_content = $this->hello($result);	
-					$row->text	= preg_replace('#{hello.*}#', $p_content, $row->text);				
+					$row->text	= preg_replace('#{hello.*}#', $p_content, $row->text);
 				}
-			}			
-		}	
+			}
+			
+		}
 		else
-		{	
+		{
 			$row->text = str_replace("{hello ", "erreur de syntaxe: {hello style=normal|bold|italic}", $row->text);
-		}	
-		return true;        
-        
+		}
+		return true;
 	}
-    
-    
-    
+
+
+
  	/**
 	* Function to insert hello world
 	*
 	* Method is called by the onContentPrepare or onPrepareContent
 	*
 	* @param string The text string to find and replace
-	*/       
+	*/	   
 	function hello( $params )
 	{
-		$content = "Hello World";	
+		$content = "Hello World";
 		if (isset($params['style']))
 		{
 			switch($params['style'])
@@ -124,13 +125,14 @@ class plgContentHello extends JPlugin
 				case 'bold':
 					$content = '<b>' . $content . '</b>';
 					break;
-				case 'normal':					
-					break;	
-				case 'italic':	
-					$content = '<I>' . $content . '</I>';				
-					break;		
+				case 'normal':
+					break;
+				case 'italic':
+					$content = '<I>' . $content . '</I>';
+					break;
 			}
 		}	
-		return $content;			
+		//$plugin =& JPluginHelper::getPlugin('content', '');
+		return $content;
 	}
 }
