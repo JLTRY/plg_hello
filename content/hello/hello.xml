@@ -9,7 +9,7 @@
 	<authorUrl>www.jltryoen.fr</authorUrl>
 	<version>1.0</version>
 	<description>Hello world plugin, use it with {hello style=bold|normal|italic}</description>
-    <files>
+	<files>
 		<filename plugin="hello">hello.php</filename>
 	</files>
 </extension>
