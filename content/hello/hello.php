@@ -11,7 +11,9 @@
 // Check to ensure this file is included in Joomla!
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.plugin.plugin' );
+use Joomla\CMS\Plugin\CMSPlugin as JPlugin;
+use Joomla\CMS\Factory as JFactory;
+
 define('PF_REGEX_HELLO_PATTERN', "#{hello(.*?)}#s");
 /**
 * Hello Content Plugin
